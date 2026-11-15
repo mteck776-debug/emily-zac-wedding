@@ -1,6 +1,6 @@
 // Data layer. Uses Firebase when js/config.js has a config, otherwise a
 // browser-only demo store so the site can be previewed before setup.
-import { firebaseConfig } from './config.js';
+import { firebaseConfig } from './config.js?v=4';
 
 export const demo = !firebaseConfig;
 const CDN = 'https://www.gstatic.com/firebasejs/10.12.2/';

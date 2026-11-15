@@ -1,5 +1,5 @@
-import { site } from './config.js';
-import * as store from './store.js';
+import { site } from './config.js?v=4';
+import * as store from './store.js?v=4';
 
 const $ = (id) => document.getElementById(id);
 const money = (n) => '$' + n.toLocaleString('en-AU');
