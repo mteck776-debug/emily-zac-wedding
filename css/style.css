@@ -66,13 +66,15 @@ a { color: var(--burgundy); }
 /* ── hero ────────────────────────────────────────── */
 .hero {
   min-height: min(92svh, 52rem);
-  display: grid; place-items: center; text-align: center;
-  color: #fff; padding: 4rem 1.25rem;
+  display: grid; place-items: end center; text-align: center;
+  color: #fff; padding: 4rem 1.25rem 3rem;
   background:
-    linear-gradient(180deg, rgba(47, 22, 26, .55), rgba(47, 22, 26, .72)),
-    url('../images/hero.jpg') center 30% / cover no-repeat,
+    linear-gradient(180deg, rgba(47, 22, 26, .30) 0%, rgba(47, 22, 26, .45) 45%, rgba(47, 22, 26, .82) 100%),
+    url('../images/hero.jpg') 52% 25% / cover no-repeat,
     radial-gradient(120% 90% at 20% 10%, #8a3442 0%, var(--burgundy) 45%, var(--burgundy-deep) 100%);
 }
+.hero-inner { text-shadow: 0 1px 12px rgba(30, 12, 15, .55); }
+.hero .btn { text-shadow: none; }
 .hero .eyebrow { color: var(--tan-soft); }
 .hero h1 { font-size: clamp(3.25rem, 15vw, 6.5rem); margin-bottom: .2em; }
 .hero-date { font-family: var(--serif); font-size: clamp(1.4rem, 5vw, 2rem); margin-bottom: .1em; }
@@ -81,6 +83,18 @@ a { color: var(--burgundy); }
 .countdown div { display: grid; }
 .countdown strong { font-family: var(--serif); font-size: 2.25rem; line-height: 1; font-variant-numeric: tabular-nums; }
 .countdown span { font-size: .7rem; letter-spacing: .18em; text-transform: uppercase; color: var(--tan-soft); margin-top: .35rem; }
+
+@media (min-width: 60rem) {
+  .hero {
+    position: relative; place-items: center start; padding: 0;
+    background: radial-gradient(120% 90% at 20% 10%, #8a3442 0%, var(--burgundy) 45%, var(--burgundy-deep) 100%);
+  }
+  .hero::before {
+    content: ''; position: absolute; inset: 0 0 0 44%;
+    background: url('../images/hero.jpg') 48% 20% / cover no-repeat;
+  }
+  .hero-inner { position: relative; width: 44%; padding: 3rem 2rem; text-shadow: none; }
+}
 
 /* ── buttons ─────────────────────────────────────── */
 .btn {
