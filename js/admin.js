@@ -1,5 +1,5 @@
-import { site } from './config.js?v=4';
-import * as store from './store.js?v=4';
+import { site } from './config.js?v=5';
+import * as store from './store.js?v=5';
 
 const $ = (id) => document.getElementById(id);
 const money = (n) => '$' + n.toLocaleString('en-AU');
@@ -212,24 +212,22 @@ $('export').addEventListener('click', () => {
 // ── settings ────────────────────────────────────────────────────────
 let savedCode = '';
 
-function showShare(code) {
-  const link = new URL('index.html?code=' + encodeURIComponent(code), location.href).href;
-  $('shareLink').textContent = link;
-  $('share').hidden = !code;
+function showShare() {
+  $('shareLink').textContent = new URL('index.html', location.href).href.replace(/index\.html$/, '');
+  $('share').hidden = false;
 }
 
 async function loadSettings() {
   try {
     const p = await store.loadPayment();
-    if (!p) { $('settingsMsg').textContent = 'Not set up yet. Guests cannot RSVP until you save a guest code.'; return; }
+    if (!p) { $('settingsMsg').textContent = 'Not set up yet. Guests cannot RSVP until you save the bank details.'; return; }
     savedCode = p.code;
-    $('sCode').value = p.code;
     $('sName').value = p.accountName || '';
     $('sBsb').value = p.bsb || '';
     $('sAcc').value = p.accountNumber || '';
     $('sPayId').value = p.payId || '';
     $('sNote').value = p.note || '';
-    showShare(p.code);
+    showShare();
   } catch (err) {
     console.error(err);
     $('settingsMsg').textContent = 'Could not load the saved details.';
@@ -238,8 +236,7 @@ async function loadSettings() {
 
 $('settings').addEventListener('submit', async (ev) => {
   ev.preventDefault();
-  const code = store.cleanCode($('sCode').value);
-  if (code.length < 4) { $('settingsMsg').textContent = 'The guest code needs at least 4 letters or numbers.'; return; }
+  const code = store.GUEST_CODE;
   $('settingsMsg').textContent = 'Saving…';
   try {
     await store.savePayment(code, {
@@ -250,9 +247,8 @@ $('settings').addEventListener('submit', async (ev) => {
       note: $('sNote').value.trim(),
     }, savedCode);
     savedCode = code;
-    $('sCode').value = code;
     $('settingsMsg').textContent = 'Saved.';
-    showShare(code);
+    showShare();
   } catch (err) {
     console.error(err);
     $('settingsMsg').textContent = 'Could not save. Please try again.';

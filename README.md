@@ -38,12 +38,12 @@ The site appears at `https://mteck776-debug.github.io/emily-zac-wedding/`.
    ```
    These values are safe to commit. They identify the project; the database rules are what protect the data.
 
-### 4. Set the guest code and bank details
+### 4. Enter the bank details
 1. Open `…/admin.html` and sign in.
-2. Under "Guest code & bank details", choose a guest code and enter the account details. Save.
-3. Copy the guest link it shows and send that to guests. The code is filled in for them.
+2. Under "Bank details", enter the account details and save. Guests cannot RSVP until this is saved.
+3. Send guests the site link.
 
-Bank details live in the database, not in this repo, and can only be read by someone who has the guest code.
+Bank details live in the database, not in this repo. Guests see them after they RSVP. There is no guest code, so anyone who has the site link can RSVP and see them.
 
 ## Changing things
 

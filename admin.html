@@ -61,11 +61,10 @@
     <div id="list" class="rsvp-list"></div>
 
     <section class="panel settings">
-      <h2>Guest code &amp; bank details</h2>
-      <p class="muted">Guests need the code to RSVP and to see the bank details. These details are stored in the database, not in the website's code.</p>
+      <h2>Bank details</h2>
+      <p class="muted">Guests see these after they send their RSVP. They are stored in the database, not in the website's code.</p>
       <form id="settings">
         <div class="grid2">
-          <label class="field"><span>Guest code</span><input id="sCode" required minlength="4" maxlength="20" autocapitalize="characters" autocomplete="off" placeholder="e.g. EZ2027"><small>Letters, numbers and dashes.</small></label>
           <label class="field"><span>Account name</span><input id="sName" maxlength="80" autocomplete="off"></label>
           <label class="field"><span>BSB</span><input id="sBsb" maxlength="10" inputmode="numeric" autocomplete="off"></label>
           <label class="field"><span>Account number</span><input id="sAcc" maxlength="20" inputmode="numeric" autocomplete="off"></label>
@@ -76,7 +75,7 @@
         <button type="submit" class="btn btn-solid btn-small">Save</button>
       </form>
       <div id="share" class="share" hidden>
-        <p class="muted">Link to send guests (the code is filled in for them):</p>
+        <p class="muted">Link to send guests:</p>
         <div class="share-row"><code id="shareLink"></code><button type="button" id="copyLink" class="copy">Copy</button></div>
       </div>
     </section>
@@ -84,6 +83,6 @@
 
 </main>
 
-<script type="module" src="js/admin.js?v=4"></script>
+<script type="module" src="js/admin.js?v=5"></script>
 </body>
 </html>

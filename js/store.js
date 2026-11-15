@@ -1,6 +1,6 @@
 // Data layer. Uses Firebase when js/config.js has a config, otherwise a
 // browser-only demo store so the site can be previewed before setup.
-import { firebaseConfig } from './config.js?v=4';
+import { firebaseConfig } from './config.js?v=5';
 
 export const demo = !firebaseConfig;
 const CDN = 'https://www.gstatic.com/firebasejs/10.12.2/';
@@ -18,6 +18,9 @@ async function load() {
   return fb;
 }
 
+// Guests no longer type a code; every RSVP uses this fixed one so the
+// database rules stay the same.
+export const GUEST_CODE = 'GUEST';
 export const cleanCode = (s) => String(s || '').trim().toUpperCase().replace(/[^A-Z0-9-]/g, '');
 
 // ── demo store ──────────────────────────────────────────────────────
@@ -106,7 +109,7 @@ export async function loadPayment() {
   const { fs, db } = await load();
   const snap = await fs.getDocs(fs.collection(db, 'payment'));
   if (snap.empty) return null;
-  const d = snap.docs[0];
+  const d = snap.docs.find((x) => x.id === GUEST_CODE) || snap.docs[0];
   return { code: d.id, ...d.data() };
 }
 export async function savePayment(code, details, oldCode) {

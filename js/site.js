@@ -1,5 +1,5 @@
-import { site } from './config.js?v=4';
-import * as store from './store.js?v=4';
+import { site } from './config.js?v=5';
+import * as store from './store.js?v=5';
 
 const $ = (id) => document.getElementById(id);
 const money = (n) => '$' + n.toLocaleString('en-AU');
@@ -33,16 +33,6 @@ if (store.demo) $('demoBanner').hidden = false;
   tick();
   setInterval(tick, 30000);
 })();
-
-// ── guest code: from the link (?code=XXXX) or remembered ────────────
-const codeInput = $('code');
-const remember = {
-  get() { try { return localStorage.getItem('wed_code') || ''; } catch { return ''; } },
-  set(v) { try { localStorage.setItem('wed_code', v); } catch { /* ignore */ } },
-};
-const urlCode = store.cleanCode(new URLSearchParams(location.search).get('code'));
-codeInput.value = urlCode || remember.get() || (store.demo ? 'DEMO' : '');
-if (codeInput.value) codeInput.closest('.field').classList.add('prefilled');
 
 // ── guest rows ──────────────────────────────────────────────────────
 const guestsBox = $('guests');
@@ -156,12 +146,9 @@ function fail(msg) {
 }
 
 async function checkCode() {
-  const code = store.cleanCode(codeInput.value);
-  if (!code) { fail('Please enter the guest code from your invitation.'); codeInput.focus(); return null; }
-  const pay = await store.getPayment(code);
-  if (!pay) { fail("That guest code isn't recognised. Please check your invitation."); codeInput.focus(); return null; }
-  remember.set(code);
-  return { code, pay };
+  const pay = await store.getPayment(store.GUEST_CODE);
+  if (!pay) { fail("RSVPs aren't open just yet. Please check back soon."); return null; }
+  return { code: store.GUEST_CODE, pay };
 }
 
 // ── submit ──────────────────────────────────────────────────────────
@@ -222,7 +209,6 @@ $('again').addEventListener('click', () => {
   $('done').hidden = true;
   $('rsvpForm').hidden = false;
   $('rsvpForm').reset();
-  codeInput.value = remember.get();
   guestsBox.textContent = '';
   addGuest();
   $('rsvp').scrollIntoView({ behavior: 'smooth' });
