@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Guest list · Emily &amp; Zac</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Jost:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body class="admin">
+
+<div id="demoBanner" class="banner" hidden>Preview mode: this shows RSVPs saved on this device only. Connect Firebase to go live.</div>
+
+<header class="admin-head">
+  <div>
+    <p class="eyebrow">Emily &amp; Zac</p>
+    <h1>Guest list</h1>
+  </div>
+  <div class="admin-head-actions">
+    <a class="textbtn" href="index.html">View guest site</a>
+    <button type="button" id="signOut" class="textbtn" hidden>Sign out</button>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <p id="loading" class="center muted">Loading…</p>
+
+  <form id="login" class="panel login" hidden>
+    <h2>Sign in</h2>
+    <label class="field"><span>Email</span><input id="email" type="email" autocomplete="username" required></label>
+    <label class="field"><span>Password</span><input id="password" type="password" autocomplete="current-password" required></label>
+    <p id="loginError" class="error" role="alert" hidden></p>
+    <button type="submit" class="btn btn-solid">Sign in</button>
+  </form>
+
+  <div id="denied" class="panel center" hidden>
+    <h2>No access</h2>
+    <p>This account isn't on the admin list for this wedding.</p>
+  </div>
+
+  <div id="dash" hidden>
+    <section class="stats" id="stats" aria-label="Summary"></section>
+
+    <section class="toolbar">
+      <input id="search" type="search" placeholder="Search names" aria-label="Search names">
+      <div class="filters" role="group" aria-label="Filter">
+        <button type="button" data-filter="all" class="chip on">All</button>
+        <button type="button" data-filter="unpaid" class="chip">Unpaid</button>
+        <button type="button" data-filter="paid" class="chip">Paid</button>
+        <button type="button" data-filter="declined" class="chip">Declined</button>
+      </div>
+      <button type="button" id="export" class="btn btn-outline btn-small">Export spreadsheet</button>
+    </section>
+
+    <p id="listError" class="error" role="alert" hidden></p>
+    <p id="empty" class="center muted" hidden>No RSVPs yet.</p>
+    <div id="list" class="rsvp-list"></div>
+
+    <section class="panel settings">
+      <h2>Guest code &amp; bank details</h2>
+      <p class="muted">Guests need the code to RSVP and to see the bank details. These details are stored in the database, not in the website's code.</p>
+      <form id="settings">
+        <div class="grid2">
+          <label class="field"><span>Guest code</span><input id="sCode" required minlength="4" maxlength="20" autocapitalize="characters" autocomplete="off" placeholder="e.g. EZ2027"><small>Letters, numbers and dashes.</small></label>
+          <label class="field"><span>Account name</span><input id="sName" maxlength="80" autocomplete="off"></label>
+          <label class="field"><span>BSB</span><input id="sBsb" maxlength="10" inputmode="numeric" autocomplete="off"></label>
+          <label class="field"><span>Account number</span><input id="sAcc" maxlength="20" inputmode="numeric" autocomplete="off"></label>
+          <label class="field"><span>PayID <em>(optional)</em></span><input id="sPayId" maxlength="80" autocomplete="off"></label>
+          <label class="field"><span>Extra note for guests <em>(optional)</em></span><input id="sNote" maxlength="200" autocomplete="off"></label>
+        </div>
+        <p id="settingsMsg" class="muted" role="status"></p>
+        <button type="submit" class="btn btn-solid btn-small">Save</button>
+      </form>
+      <div id="share" class="share" hidden>
+        <p class="muted">Link to send guests (the code is filled in for them):</p>
+        <div class="share-row"><code id="shareLink"></code><button type="button" id="copyLink" class="copy">Copy</button></div>
+      </div>
+    </section>
+  </div>
+
+</main>
+
+<script type="module" src="js/admin.js"></script>
+</body>
+</html>

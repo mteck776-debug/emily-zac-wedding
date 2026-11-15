@@ -1,0 +1,43 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isAdmin() {
+      return request.auth != null
+        && exists(/databases/$(database)/documents/admins/$(request.auth.uid));
+    }
+
+    // Who may open the admin page. Add people in the Firebase console only.
+    match /admins/{uid} {
+      allow read: if request.auth != null && request.auth.uid == uid;
+      allow write: if false;
+    }
+
+    // Bank details. The document ID is the guest code, so a guest can fetch
+    // the details only if they know the code. Nobody but an admin can list.
+    match /payment/{code} {
+      allow get: if true;
+      allow list, write: if isAdmin();
+    }
+
+    // RSVPs: guests can add one (with a valid code, never marked paid),
+    // only admins can read, tick paid, edit or delete.
+    match /rsvps/{id} {
+      allow create: if isAdmin() || (
+        request.resource.data.keys().hasOnly(['code', 'guests', 'contact', 'message', 'paid', 'createdAt'])
+        && request.resource.data.code is string
+        && exists(/databases/$(database)/documents/payment/$(request.resource.data.code))
+        && request.resource.data.paid == false
+        && request.resource.data.guests is list
+        && request.resource.data.guests.size() >= 1
+        && request.resource.data.guests.size() <= 12
+        && request.resource.data.contact is string
+        && request.resource.data.contact.size() <= 200
+        && request.resource.data.message is string
+        && request.resource.data.message.size() <= 1000
+        && request.resource.data.createdAt == request.time
+      );
+      allow read, update, delete: if isAdmin();
+    }
+  }
+}

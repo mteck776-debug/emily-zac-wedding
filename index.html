@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Emily &amp; Zac · 23 October 2027</title>
+<meta name="description" content="Emily and Zac are getting married on 23 October 2027 at Spreyton Cider Co, Tasmania.">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Jost:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div id="demoBanner" class="banner" hidden>Preview mode: RSVPs are only saved on this device until the site is connected.</div>
+
+<header class="nav">
+  <a class="nav-mark" href="#top">E <span>&amp;</span> Z</a>
+  <nav aria-label="Sections">
+    <a href="#where">Where</a>
+    <a href="#schedule">Schedule</a>
+    <a href="#stay">Stay</a>
+    <a href="#faq">FAQ</a>
+    <a class="nav-cta" href="#rsvp">RSVP</a>
+  </nav>
+</header>
+
+<main id="top">
+
+<section class="hero">
+  <div class="hero-inner">
+    <p class="eyebrow">Our greatest adventure yet</p>
+    <h1>Emily <span>&amp;</span> Zac</h1>
+    <p class="hero-date">Saturday 23 October 2027</p>
+    <p class="hero-place">Spreyton Cider Co · Tasmania</p>
+    <div class="countdown" id="countdown" aria-live="off"></div>
+    <a class="btn btn-light" href="#rsvp">RSVP</a>
+  </div>
+</section>
+
+<section id="where" class="section">
+  <div class="wrap narrow center">
+    <p class="eyebrow">Where</p>
+    <h2>Spreyton Cider Co</h2>
+    <p>The ceremony and reception will both be held at Spreyton Cider Co.</p>
+    <p class="address">6 Melrose Rd, Aberdeen, Tasmania 7310</p>
+    <a class="btn btn-outline" target="_blank" rel="noopener"
+       href="https://www.google.com/maps/search/?api=1&query=Spreyton+Cider+Co+6+Melrose+Rd+Aberdeen+TAS+7310">Open in Maps</a>
+  </div>
+</section>
+
+<section id="schedule" class="section tint">
+  <div class="wrap narrow">
+    <p class="eyebrow center">Saturday 23 October</p>
+    <h2 class="center">Schedule of events</h2>
+    <ol class="timeline">
+      <li>
+        <time>2:30 pm</time>
+        <h3>Arrive</h3>
+        <p>Please arrive 30 minutes early so nobody walks in once the ceremony has started.</p>
+      </li>
+      <li>
+        <time>3:00 pm</time>
+        <h3>Ceremony</h3>
+        <p>The ceremony starts at 3pm sharp.</p>
+      </li>
+      <li>
+        <time>3:30 pm</time>
+        <h3>After the ceremony</h3>
+        <p>Guests move to the reception to mingle while the bride and groom take family photos, couple portraits and group photos.</p>
+      </li>
+      <li>
+        <time>3:30 – 11:30 pm</time>
+        <h3>Reception &amp; party time</h3>
+        <p>Formalities include the entrance, a few speeches and the cake cutting. After that the dance floor is open to boogie. There will be games on the lawn if the weather permits, and other entertainment.</p>
+        <p class="fine">Loud music off by 10:30pm. Venue vacant by midnight.</p>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<section id="stay" class="section">
+  <div class="wrap">
+    <p class="eyebrow center">Accommodation</p>
+    <h2 class="center">Where to stay</h2>
+    <div class="cards">
+      <article class="card">
+        <h3>Airbnb</h3>
+        <p>There are plenty of great Airbnb options in the area.</p>
+        <a class="link" target="_blank" rel="noopener" href="https://www.airbnb.com.au/s/Spreyton--Tasmania--Australia/homes">Browse Airbnb</a>
+      </article>
+      <article class="card">
+        <h3>Devonport</h3>
+        <p>More options in Devonport, a short 10 minute drive from the venue.</p>
+        <a class="link" target="_blank" rel="noopener" href="https://www.booking.com/searchresults.html?ss=Devonport%2C+Tasmania%2C+Australia">Browse Booking.com</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="faq" class="section tint">
+  <div class="wrap narrow">
+    <p class="eyebrow center">Good to know</p>
+    <h2 class="center">Frequently asked questions</h2>
+    <details open>
+      <summary>Dress code &amp; theme</summary>
+      <p>Dress up! The colour theme is earthy colours that complement burgundy and tan. The bridesmaids are wearing burgundy, so please avoid matching them. And for the ladies, no white.</p>
+    </details>
+    <details>
+      <summary>Parking &amp; accessibility</summary>
+      <p>Parking is available and easy to reach, with plenty of signs to point the way.</p>
+    </details>
+    <details>
+      <summary>Food &amp; dietary requirements</summary>
+      <p>Food will be canapé style, and we will make sure everyone is fed. Please add any dietary requirements when you RSVP.</p>
+    </details>
+    <details>
+      <summary>Paying for meals</summary>
+      <p>Meals are covered by guests at <strong>$<span data-price>65</span> per person</strong>. If you would rather not eat at the wedding, that is fine too. Bank details appear once you have sent your RSVP.</p>
+    </details>
+  </div>
+</section>
+
+<section id="rsvp" class="section">
+  <div class="wrap narrow">
+    <p class="eyebrow center">We can't wait to celebrate with you</p>
+    <h2 class="center">RSVP</h2>
+
+    <form id="rsvpForm" novalidate>
+      <label class="field">
+        <span>Guest code</span>
+        <input id="code" name="code" autocomplete="off" autocapitalize="characters" required placeholder="From your invitation">
+        <small>The code that came with your invitation.</small>
+      </label>
+
+      <div id="guests" class="guests"></div>
+      <button type="button" id="addGuest" class="btn btn-outline btn-small">+ Add another guest</button>
+
+      <label class="field">
+        <span>Email or phone <em>(optional)</em></span>
+        <input id="contact" name="contact" maxlength="200" autocomplete="email">
+      </label>
+      <label class="field">
+        <span>Message for the couple <em>(optional)</em></span>
+        <textarea id="message" name="message" rows="3" maxlength="1000"></textarea>
+      </label>
+
+      <p id="total" class="total" hidden></p>
+      <p id="formError" class="error" role="alert" hidden></p>
+      <button type="submit" id="send" class="btn btn-solid">Send RSVP</button>
+      <p class="fine center"><button type="button" id="showPay" class="textbtn">Already replied? Show the bank details again</button></p>
+    </form>
+
+    <div id="done" class="done" hidden tabindex="-1">
+      <h3 id="doneTitle"></h3>
+      <p id="doneText"></p>
+      <div id="payBox" class="paybox" hidden>
+        <p class="pay-amount" id="payAmount"></p>
+        <dl id="payDetails"></dl>
+        <p class="fine" id="payRef"></p>
+      </div>
+      <button type="button" id="again" class="btn btn-outline btn-small">Send another RSVP</button>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="footer">
+  <p class="footer-mark">Emily <span>&amp;</span> Zac</p>
+  <p>23 . 10 . 2027</p>
+</footer>
+
+<template id="guestTpl">
+  <fieldset class="guest">
+    <legend>Guest</legend>
+    <button type="button" class="guest-remove" aria-label="Remove this guest">Remove</button>
+    <label class="field">
+      <span>Full name</span>
+      <input class="g-name" maxlength="80" autocomplete="name" required>
+    </label>
+    <div class="choice" role="group" aria-label="Attending">
+      <label><input type="radio" class="g-yes" value="yes"><span>Joyfully accepts</span></label>
+      <label><input type="radio" class="g-no" value="no"><span>Regretfully declines</span></label>
+    </div>
+    <div class="g-extra" hidden>
+      <label class="check">
+        <input type="checkbox" class="g-eat" checked>
+        <span>Having food at the wedding ($<span data-price>65</span>)</span>
+      </label>
+      <label class="field g-diet-wrap">
+        <span>Dietary requirements <em>(optional)</em></span>
+        <input class="g-diet" maxlength="200" placeholder="e.g. vegetarian, gluten free">
+      </label>
+    </div>
+  </fieldset>
+</template>
+
+<script type="module" src="js/site.js"></script>
+</body>
+</html>
