@@ -1,5 +1,6 @@
-import { site } from './config.js?v=5';
-import * as store from './store.js?v=5';
+import * as store from './store.js?v=6';
+import { defaults } from './content.js?v=6';
+import { mountEditor } from './editor.js?v=6';
 
 const $ = (id) => document.getElementById(id);
 const money = (n) => '$' + n.toLocaleString('en-AU');
@@ -15,12 +16,17 @@ if (store.demo) $('demoBanner').hidden = false;
 let rsvps = [];
 let filter = 'all';
 let watching = false;
+let price = defaults.price;
+const editor = mountEditor($('viewEdit'), store, {
+  onSaved(content) { price = content.price; render(); },
+});
+
 
 const counts = (r) => {
   const guests = r.guests || [];
   const attending = guests.filter((g) => g.attending).length;
   const eating = guests.filter((g) => g.eating).length;
-  return { attending, eating, owed: eating * site.pricePerPerson };
+  return { attending, eating, owed: eating * price };
 };
 
 // ── auth ────────────────────────────────────────────────────────────
@@ -42,6 +48,7 @@ store.onAuth((state) => {
       $('listError').hidden = false;
     });
     loadSettings();
+    loadEditor();
   }
 }).catch((err) => {
   console.error(err);
@@ -261,3 +268,26 @@ $('copyLink').addEventListener('click', async () => {
   catch { b.textContent = 'Select the link to copy'; }
   setTimeout(() => { b.textContent = 'Copy'; }, 2000);
 });
+
+// ── tabs + website editor ───────────────────────────────────────────
+function showTab(edit) {
+  $('viewEdit').hidden = !edit;
+  $('viewGuests').hidden = edit;
+  $('tabEdit').classList.toggle('on', edit);
+  $('tabGuests').classList.toggle('on', !edit);
+  $('tabEdit').setAttribute('aria-selected', edit);
+  $('tabGuests').setAttribute('aria-selected', !edit);
+  $('adminTitle').textContent = edit ? 'Edit website' : 'Guest list';
+}
+$('tabEdit').addEventListener('click', () => showTab(true));
+$('tabGuests').addEventListener('click', () => showTab(false));
+
+async function loadEditor() {
+  try {
+    const content = editor.load(await store.getContent());
+    price = content.price;
+    render();
+  } catch (err) {
+    console.error(err);
+  }
+}

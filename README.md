@@ -47,7 +47,12 @@ Bank details live in the database, not in this repo. Guests see them after they 
 
 ## Changing things
 
-- **Wording, times, links:** edit `index.html`.
-- **Meal price, ceremony time:** edit `js/config.js`.
-- **Colours and fonts:** the variables at the top of `css/style.css`.
-- **Hero photo:** add a photo at `images/hero.jpg` (landscape or portrait, around 2000px on the long side). Without one the hero shows a burgundy background.
+No code needed: sign in at `admin.html` and open the **Edit website** tab. From there you can change the names, all the wording, the date and countdown, the meal price, the schedule, accommodation and FAQ lists (add, remove, reorder), the RSVP wording and thank-you messages, the colours and the main photo. You can also hide whole sections. Press "Save changes" and the guest site updates.
+
+If the rules in the Firebase console are older than `firestore.rules` in this repo (it now has a `content` block), paste the file in again and publish, or saving will fail.
+
+For developers:
+
+- **Starting content** (used until something is saved from the editor): `js/content.js`.
+- **Layout and styling:** `index.html` and `css/style.css`.
+- **Website icon:** `favicon.ico` and the icon files in `images/`.

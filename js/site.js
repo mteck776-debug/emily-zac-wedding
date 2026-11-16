@@ -1,38 +1,116 @@
-import { site } from './config.js?v=5';
-import * as store from './store.js?v=5';
+import { site } from './config.js?v=6';
+import * as store from './store.js?v=6';
+import { defaults, merge, get, fill, venueTime, applyTheme } from './content.js?v=6';
 
 const $ = (id) => document.getElementById(id);
-const money = (n) => '$' + n.toLocaleString('en-AU');
+const money = (n) => '$' + Number(n).toLocaleString('en-AU');
+const el = (tag, cls, text) => {
+  const n = document.createElement(tag);
+  if (cls) n.className = cls;
+  if (text != null) n.textContent = text;
+  return n;
+};
 
-document.querySelectorAll('[data-price]').forEach((el) => { el.textContent = site.pricePerPerson; });
 if (store.demo) $('demoBanner').hidden = false;
 
-// ── countdown ───────────────────────────────────────────────────────
-(function countdown() {
-  const box = $('countdown');
-  const target = new Date(site.ceremony).getTime();
-  const tick = () => {
-    const ms = target - Date.now();
-    box.textContent = '';
-    if (ms <= 0) { box.hidden = true; return; }
-    const parts = [
-      [Math.floor(ms / 864e5), 'days'],
-      [Math.floor(ms / 36e5) % 24, 'hours'],
-      [Math.floor(ms / 6e4) % 60, 'minutes'],
-    ];
-    for (const [n, label] of parts) {
-      const cell = document.createElement('div');
-      const num = document.createElement('strong');
-      num.textContent = n;
-      const lab = document.createElement('span');
-      lab.textContent = label;
-      cell.append(num, lab);
-      box.append(cell);
+// ── content: text, colours and photo come from the Edit website tab ──
+const cache = {
+  get() { try { return JSON.parse(localStorage.getItem('wed_content_cache')); } catch { return null; } },
+  set(v) { try { localStorage.setItem('wed_content_cache', JSON.stringify(v)); } catch { /* ignore */ } },
+};
+let content = merge(defaults, cache.get());
+const t = (path) => fill(get(content, path), content);
+
+function bind(root) {
+  root.querySelectorAll('[data-t]').forEach((n) => { n.textContent = t(n.dataset.t); });
+}
+
+function renderLists() {
+  const sched = $('scheduleList');
+  sched.textContent = '';
+  for (const it of content.schedule.items) {
+    const li = el('li');
+    li.append(el('time', null, fill(it.time, content)), el('h3', null, fill(it.title, content)));
+    if (it.text) li.append(el('p', 'lines', fill(it.text, content)));
+    if (it.note) li.append(el('p', 'fine lines', fill(it.note, content)));
+    sched.append(li);
+  }
+  const stay = $('stayList');
+  stay.textContent = '';
+  for (const it of content.stay.items) {
+    const card = el('article', 'card');
+    card.append(el('h3', null, fill(it.title, content)));
+    if (it.text) card.append(el('p', 'lines', fill(it.text, content)));
+    if (it.url && /^https?:\/\//i.test(it.url)) {
+      const a = el('a', 'link', fill(it.linkText || 'Open link', content));
+      a.href = it.url; a.target = '_blank'; a.rel = 'noopener';
+      card.append(a);
     }
-  };
+    stay.append(card);
+  }
+  const faq = $('faqList');
+  faq.textContent = '';
+  content.faq.items.forEach((it, i) => {
+    const d = el('details');
+    d.open = i === 0;
+    d.append(el('summary', null, fill(it.q, content)), el('p', 'lines', fill(it.a, content)));
+    faq.append(d);
+  });
+}
+
+let ceremonyAt = null;
+function tick() {
+  const box = $('countdown');
+  const ms = ceremonyAt ? ceremonyAt.getTime() - Date.now() : -1;
+  box.textContent = '';
+  box.hidden = !content.showCountdown || ms <= 0;
+  if (box.hidden) return;
+  const parts = [
+    [Math.floor(ms / 864e5), 'days'],
+    [Math.floor(ms / 36e5) % 24, 'hours'],
+    [Math.floor(ms / 6e4) % 60, 'minutes'],
+  ];
+  for (const [n, label] of parts) {
+    const cell = el('div');
+    cell.append(el('strong', null, n), el('span', null, label));
+    box.append(cell);
+  }
+}
+setInterval(tick, 30000);
+
+function applyContent() {
+  document.title = t('pageTitle');
+  applyTheme(content.theme);
+  bind(document);
+  const mark = $('navMark');
+  mark.textContent = '';
+  mark.append((content.hero.name1.trim()[0] || '') + ' ', el('span', 'amp', '&'), ' ' + (content.hero.name2.trim()[0] || ''));
+  for (const sec of ['where', 'schedule', 'stay', 'faq']) {
+    document.querySelectorAll(`[data-sec="${sec}"]`).forEach((n) => { n.hidden = !content[sec].show; });
+  }
+  $('mapLink').href = 'https://www.google.com/maps/search/?api=1&query='
+    + encodeURIComponent(content.where.title + ' ' + content.where.address);
+  renderLists();
+  ceremonyAt = venueTime(content.ceremony);
   tick();
-  setInterval(tick, 30000);
-})();
+  if ($('guests').children.length) refresh();
+}
+
+function applyHero(image) {
+  if (image && image.startsWith('data:image/')) {
+    document.documentElement.style.setProperty('--hero-img', `url("${image}")`);
+  }
+}
+
+applyContent();
+const reveal = () => document.body.classList.remove('loading');
+setTimeout(reveal, 3000);
+store.getContent().then(({ site: saved, hero }) => {
+  content = merge(defaults, saved);
+  cache.set(saved);
+  applyContent();
+  applyHero(hero);
+}).catch((err) => console.error(err)).finally(reveal);
 
 // ── guest rows ──────────────────────────────────────────────────────
 const guestsBox = $('guests');
@@ -47,6 +125,7 @@ function addGuest() {
   row.querySelector('.g-no').name = name;
   row.querySelector('.guest-remove').addEventListener('click', () => { row.remove(); refresh(); });
   row.addEventListener('change', refresh);
+  bind(row);
   guestsBox.append(row);
   refresh();
   return row;
@@ -79,7 +158,7 @@ function refresh() {
   const eating = readGuests().filter((g) => g.eating).length;
   const total = $('total');
   total.hidden = eating === 0;
-  total.textContent = `Meals: ${eating} × ${money(site.pricePerPerson)} = ${money(eating * site.pricePerPerson)}`;
+  total.textContent = `Meals: ${eating} × ${money(content.price)} = ${money(eating * content.price)}`;
 }
 
 $('addGuest').addEventListener('click', () => { const r = addGuest(); if (r) r.querySelector('.g-name').focus(); });
@@ -118,8 +197,8 @@ function showPayment(pay, eatingCount, reference) {
     dl.append(dt, dd);
   }
   $('payAmount').textContent = eatingCount
-    ? `Amount to pay: ${money(eatingCount * site.pricePerPerson)} (${eatingCount} × ${money(site.pricePerPerson)})`
-    : `Meals are ${money(site.pricePerPerson)} per person.`;
+    ? `Amount to pay: ${money(eatingCount * content.price)} (${eatingCount} × ${money(content.price)})`
+    : `Meals are ${money(content.price)} per person.`;
   const ref = $('payRef');
   ref.textContent = '';
   ref.append(reference
@@ -175,20 +254,18 @@ $('rsvpForm').addEventListener('submit', async (ev) => {
     const eating = guests.filter((g) => g.eating);
     if (!coming.length) {
       $('payBox').hidden = true;
-      showDone('Thank you for letting us know', "We're sorry you can't make it and we'll miss you on the day.");
+      showDone(t('rsvp.sorryTitle'), t('rsvp.sorryText'));
     } else {
       if (eating.length) showPayment(ok.pay, eating.length, eating.map((g) => g.name).join(', '));
       else $('payBox').hidden = true;
-      showDone("You're on the list!", eating.length
-        ? 'Thank you for your RSVP. To confirm your meals, please transfer the amount below.'
-        : 'Thank you for your RSVP. We can’t wait to see you there.');
+      showDone(t('rsvp.thanksTitle'), eating.length ? t('rsvp.thanksPay') : t('rsvp.thanksNoPay'));
     }
   } catch (err) {
     console.error(err);
     fail('Sorry, something went wrong sending your RSVP. Please check your connection and try again.');
   } finally {
     send.disabled = false;
-    send.textContent = 'Send RSVP';
+    send.textContent = t('rsvp.button');
   }
 });
 

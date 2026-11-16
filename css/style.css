@@ -1,6 +1,7 @@
 :root {
   --burgundy: #6d2230;
-  --burgundy-deep: #4c1620;
+  --burgundy-deep: color-mix(in srgb, var(--burgundy) 68%, #1a0d0d);
+  --hero-img: url('../images/hero.jpg');
   --tan: #c9a57c;
   --tan-soft: #ead9c3;
   --cream: #faf5ee;
@@ -25,6 +26,9 @@ body {
   -webkit-text-size-adjust: 100%;
 }
 [hidden] { display: none !important; }
+main { transition: opacity .3s; }
+body.loading main { opacity: 0; }
+.lines { white-space: pre-line; }
 h1, h2, h3 { font-family: var(--serif); font-weight: 600; line-height: 1.15; margin: 0 0 .5em; }
 h2 { font-size: clamp(2rem, 6vw, 2.75rem); }
 h3 { font-size: 1.5rem; }
@@ -55,7 +59,7 @@ a { color: var(--burgundy); }
   border-bottom: 1px solid var(--line);
 }
 .nav-mark { font-family: var(--serif); font-size: 1.5rem; font-weight: 600; color: var(--ink); text-decoration: none; }
-.nav-mark span, .footer-mark span, .hero h1 span { color: var(--tan); font-style: italic; font-weight: 500; }
+.amp { color: var(--tan); font-style: italic; font-weight: 500; }
 .nav nav { display: flex; align-items: center; gap: 1.1rem; }
 .nav nav a { color: var(--ink); text-decoration: none; font-size: .9rem; letter-spacing: .04em; }
 .nav nav a:hover { color: var(--burgundy); }
@@ -70,8 +74,8 @@ a { color: var(--burgundy); }
   color: #fff; padding: 4rem 1.25rem 3rem;
   background:
     linear-gradient(180deg, rgba(47, 22, 26, .30) 0%, rgba(47, 22, 26, .45) 45%, rgba(47, 22, 26, .82) 100%),
-    url('../images/hero.jpg') 52% 25% / cover no-repeat,
-    radial-gradient(120% 90% at 20% 10%, #8a3442 0%, var(--burgundy) 45%, var(--burgundy-deep) 100%);
+    var(--hero-img) 52% 25% / cover no-repeat,
+    radial-gradient(120% 90% at 20% 10%, color-mix(in srgb, var(--burgundy) 80%, #fff) 0%, var(--burgundy) 45%, var(--burgundy-deep) 100%);
 }
 .hero-inner { text-shadow: 0 1px 12px rgba(30, 12, 15, .55); }
 .hero .btn { text-shadow: none; }
@@ -87,11 +91,11 @@ a { color: var(--burgundy); }
 @media (min-width: 60rem) {
   .hero {
     position: relative; place-items: center start; padding: 0;
-    background: radial-gradient(120% 90% at 20% 10%, #8a3442 0%, var(--burgundy) 45%, var(--burgundy-deep) 100%);
+    background: radial-gradient(120% 90% at 20% 10%, color-mix(in srgb, var(--burgundy) 80%, #fff) 0%, var(--burgundy) 45%, var(--burgundy-deep) 100%);
   }
   .hero::before {
     content: ''; position: absolute; inset: 0 0 0 44%;
-    background: url('../images/hero.jpg') 48% 20% / cover no-repeat;
+    background: var(--hero-img) 48% 20% / cover no-repeat;
   }
   .hero-inner { position: relative; width: 44%; padding: 3rem 2rem; text-shadow: none; }
 }
@@ -137,7 +141,7 @@ a { color: var(--burgundy); }
 .link { font-weight: 500; }
 
 details { background: var(--paper); border-radius: .85rem; margin-top: .75rem; border: 1px solid var(--line); }
-details:first-of-type { margin-top: 2.5rem; }
+#faqList { margin-top: 2.5rem; }
 summary { cursor: pointer; padding: 1rem 1.25rem; font-family: var(--serif); font-size: 1.35rem; font-weight: 600; list-style: none; display: flex; justify-content: space-between; gap: 1rem; }
 summary::-webkit-details-marker { display: none; }
 summary::after { content: '+'; color: var(--burgundy); font-family: var(--sans); font-weight: 400; }
@@ -154,7 +158,7 @@ input:not([type=checkbox]):not([type=radio]), textarea {
   width: 100%; font: inherit; color: inherit; background: var(--paper);
   border: 1.5px solid var(--line); border-radius: .6rem; padding: .7rem .85rem;
 }
-input:focus, textarea:focus { outline: none; border-color: var(--burgundy); box-shadow: 0 0 0 3px rgba(109, 34, 48, .15); }
+input:focus, textarea:focus { outline: none; border-color: var(--burgundy); box-shadow: 0 0 0 3px color-mix(in srgb, var(--burgundy) 18%, transparent); }
 textarea { resize: vertical; }
 
 .guest { border: 1px solid var(--line); background: var(--paper); border-radius: 1rem; padding: 1.25rem; margin: 0 0 1rem; position: relative; min-width: 0; }
@@ -233,5 +237,31 @@ textarea { resize: vertical; }
 .share { margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--line); }
 .share-row { display: flex; gap: .75rem; align-items: center; }
 .share code { flex: 1; min-width: 0; overflow-wrap: anywhere; background: var(--cream); padding: .5rem .75rem; border-radius: .5rem; font-size: .85rem; }
+
+/* ── admin: tabs and website editor ──────────────── */
+.tabs { display: flex; gap: .4rem; border-bottom: 1px solid var(--line); margin-bottom: 1.5rem; }
+.tab { font: inherit; font-weight: 500; background: none; border: 0; border-bottom: 3px solid transparent; padding: .7rem 1rem; cursor: pointer; color: var(--muted); margin-bottom: -1px; }
+.tab.on { color: var(--ink); border-bottom-color: var(--burgundy); }
+.ed-group { margin-top: .75rem; }
+.ed-group:first-of-type { margin-top: .75rem; }
+.ed-group > summary { font-size: 1.3rem; }
+.ed-body { padding: 0 1.25rem 1.25rem; }
+.ed-body .field input[type=color] { width: 4.5rem; height: 2.75rem; padding: .2rem; cursor: pointer; }
+.ed-list { margin-top: 1rem; display: grid; gap: .75rem; }
+.ed-list > .btn { justify-self: start; }
+.ed-item { background: var(--cream); border: 1px solid var(--line); border-radius: .75rem; padding: 1rem; }
+.ed-item-head { display: flex; justify-content: space-between; align-items: center; gap: .75rem; flex-wrap: wrap; margin-bottom: .75rem; }
+.ed-tools { display: flex; gap: .35rem; }
+.ed-tools .chip:disabled { opacity: .35; cursor: default; }
+.ed-photo { display: block; width: 100%; max-height: 16rem; object-fit: cover; object-position: 50% 25%; border-radius: .75rem; margin-bottom: 1rem; background: var(--tan-soft); }
+.ed-body input[type=file] { padding: .5rem; }
+.savebar {
+  position: sticky; bottom: 0; z-index: 5; margin-top: 1.5rem;
+  display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; justify-content: flex-end;
+  background: var(--paper); border: 1px solid var(--line); border-bottom: 0;
+  border-radius: 1rem 1rem 0 0; padding: .85rem 1rem; box-shadow: 0 -6px 18px rgba(47, 35, 29, .08);
+}
+.savebar-status { margin-right: auto; font-size: .9rem; color: var(--muted); }
+.savebar.dirty .savebar-status { color: var(--burgundy); font-weight: 500; }
 
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; } }

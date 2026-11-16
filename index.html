@@ -14,18 +14,18 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Jost:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css?v=3">
 </head>
-<body>
+<body class="loading">
 
 <div id="demoBanner" class="banner" hidden>Preview mode: RSVPs are only saved on this device until the site is connected.</div>
 
 <header class="nav">
-  <a class="nav-mark" href="#top">E <span>&amp;</span> Z</a>
+  <a class="nav-mark" href="#top" id="navMark">E <span class="amp">&amp;</span> Z</a>
   <nav aria-label="Sections">
-    <a href="#where">Where</a>
-    <a href="#schedule">Schedule</a>
-    <a href="#stay">Stay</a>
-    <a href="#faq">FAQ</a>
-    <a class="nav-cta" href="#rsvp">RSVP</a>
+    <a href="#where" data-sec="where" data-t="where.nav">Where</a>
+    <a href="#schedule" data-sec="schedule" data-t="schedule.nav">Schedule</a>
+    <a href="#stay" data-sec="stay" data-t="stay.nav">Stay</a>
+    <a href="#faq" data-sec="faq" data-t="faq.nav">FAQ</a>
+    <a class="nav-cta" href="#rsvp" data-t="rsvp.nav">RSVP</a>
   </nav>
 </header>
 
@@ -33,102 +33,53 @@
 
 <section class="hero">
   <div class="hero-inner">
-    <p class="eyebrow">Our greatest adventure yet</p>
-    <h1>Emily <span>&amp;</span> Zac</h1>
-    <p class="hero-date">Saturday 23 October 2027</p>
-    <p class="hero-place">Spreyton Cider Co · Tasmania</p>
+    <p class="eyebrow" data-t="hero.eyebrow">Our greatest adventure yet</p>
+    <h1><span data-t="hero.name1">Emily</span> <span class="amp">&amp;</span> <span data-t="hero.name2">Zac</span></h1>
+    <p class="hero-date" data-t="hero.date">Saturday 23 October 2027</p>
+    <p class="hero-place" data-t="hero.place">Spreyton Cider Co · Tasmania</p>
     <div class="countdown" id="countdown" aria-live="off"></div>
-    <a class="btn btn-light" href="#rsvp">RSVP</a>
+    <a class="btn btn-light" href="#rsvp" data-t="hero.button">RSVP</a>
   </div>
 </section>
 
-<section id="where" class="section">
+<section id="where" class="section" data-sec="where">
   <div class="wrap narrow center">
-    <p class="eyebrow">Where</p>
-    <h2>Spreyton Cider Co</h2>
-    <p>The ceremony and reception will both be held at Spreyton Cider Co.</p>
-    <p class="address">6 Melrose Rd, Aberdeen, Tasmania 7310</p>
-    <a class="btn btn-outline" target="_blank" rel="noopener"
-       href="https://www.google.com/maps/search/?api=1&query=Spreyton+Cider+Co+6+Melrose+Rd+Aberdeen+TAS+7310">Open in Maps</a>
+    <p class="eyebrow" data-t="where.eyebrow"></p>
+    <h2 data-t="where.title"></h2>
+    <p class="lines" data-t="where.text"></p>
+    <p class="address lines" data-t="where.address"></p>
+    <a class="btn btn-outline" id="mapLink" target="_blank" rel="noopener" href="#" data-t="where.button"></a>
   </div>
 </section>
 
-<section id="schedule" class="section tint">
+<section id="schedule" class="section tint" data-sec="schedule">
   <div class="wrap narrow">
-    <p class="eyebrow center">Saturday 23 October</p>
-    <h2 class="center">Schedule of events</h2>
-    <ol class="timeline">
-      <li>
-        <time>2:30 pm</time>
-        <h3>Arrive</h3>
-        <p>Please arrive 30 minutes early so nobody walks in once the ceremony has started.</p>
-      </li>
-      <li>
-        <time>3:00 pm</time>
-        <h3>Ceremony</h3>
-        <p>The ceremony starts at 3pm sharp.</p>
-      </li>
-      <li>
-        <time>3:30 pm</time>
-        <h3>After the ceremony</h3>
-        <p>Guests move to the reception to mingle while the bride and groom take family photos, couple portraits and group photos.</p>
-      </li>
-      <li>
-        <time>3:30 – 11:30 pm</time>
-        <h3>Reception &amp; party time</h3>
-        <p>Formalities include the entrance, a few speeches and the cake cutting. After that the dance floor is open to boogie. There will be games on the lawn if the weather permits, and other entertainment.</p>
-        <p class="fine">Loud music off by 10:30pm. Venue vacant by midnight.</p>
-      </li>
-    </ol>
+    <p class="eyebrow center" data-t="schedule.eyebrow"></p>
+    <h2 class="center" data-t="schedule.title"></h2>
+    <ol class="timeline" id="scheduleList"></ol>
   </div>
 </section>
 
-<section id="stay" class="section">
+<section id="stay" class="section" data-sec="stay">
   <div class="wrap">
-    <p class="eyebrow center">Accommodation</p>
-    <h2 class="center">Where to stay</h2>
-    <div class="cards">
-      <article class="card">
-        <h3>Airbnb</h3>
-        <p>There are plenty of great Airbnb options in the area.</p>
-        <a class="link" target="_blank" rel="noopener" href="https://www.airbnb.com.au/s/Spreyton--Tasmania--Australia/homes">Browse Airbnb</a>
-      </article>
-      <article class="card">
-        <h3>Devonport</h3>
-        <p>More options in Devonport, a short 10 minute drive from the venue.</p>
-        <a class="link" target="_blank" rel="noopener" href="https://www.booking.com/searchresults.html?ss=Devonport%2C+Tasmania%2C+Australia">Browse Booking.com</a>
-      </article>
-    </div>
+    <p class="eyebrow center" data-t="stay.eyebrow"></p>
+    <h2 class="center" data-t="stay.title"></h2>
+    <div class="cards" id="stayList"></div>
   </div>
 </section>
 
-<section id="faq" class="section tint">
+<section id="faq" class="section tint" data-sec="faq">
   <div class="wrap narrow">
-    <p class="eyebrow center">Good to know</p>
-    <h2 class="center">Frequently asked questions</h2>
-    <details open>
-      <summary>Dress code &amp; theme</summary>
-      <p>Dress up! The colour theme is earthy colours that complement burgundy and tan. The bridesmaids are wearing burgundy, so please avoid matching them. And for the ladies, no white.</p>
-    </details>
-    <details>
-      <summary>Parking &amp; accessibility</summary>
-      <p>Parking is available and easy to reach, with plenty of signs to point the way.</p>
-    </details>
-    <details>
-      <summary>Food &amp; dietary requirements</summary>
-      <p>Food will be canapé style, and we will make sure everyone is fed. Please add any dietary requirements when you RSVP.</p>
-    </details>
-    <details>
-      <summary>Paying for meals</summary>
-      <p>Meals are covered by guests at <strong>$<span data-price>65</span> per person</strong>. If you would rather not eat at the wedding, that is fine too. Bank details appear once you have sent your RSVP.</p>
-    </details>
+    <p class="eyebrow center" data-t="faq.eyebrow"></p>
+    <h2 class="center" data-t="faq.title"></h2>
+    <div id="faqList"></div>
   </div>
 </section>
 
 <section id="rsvp" class="section">
   <div class="wrap narrow">
-    <p class="eyebrow center">We can't wait to celebrate with you</p>
-    <h2 class="center">RSVP</h2>
+    <p class="eyebrow center" data-t="rsvp.eyebrow"></p>
+    <h2 class="center" data-t="rsvp.title">RSVP</h2>
 
     <form id="rsvpForm" novalidate>
       <div id="guests" class="guests"></div>
@@ -145,7 +96,7 @@
 
       <p id="total" class="total" hidden></p>
       <p id="formError" class="error" role="alert" hidden></p>
-      <button type="submit" id="send" class="btn btn-solid">Send RSVP</button>
+      <button type="submit" id="send" class="btn btn-solid" data-t="rsvp.button">Send RSVP</button>
       <p class="fine center"><button type="button" id="showPay" class="textbtn">Already replied? Show the bank details again</button></p>
     </form>
 
@@ -165,8 +116,8 @@
 </main>
 
 <footer class="footer">
-  <p class="footer-mark">Emily <span>&amp;</span> Zac</p>
-  <p>23 . 10 . 2027</p>
+  <p class="footer-mark"><span data-t="hero.name1">Emily</span> <span class="amp">&amp;</span> <span data-t="hero.name2">Zac</span></p>
+  <p data-t="footer.date">23 . 10 . 2027</p>
 </footer>
 
 <template id="guestTpl">
@@ -178,13 +129,13 @@
       <input class="g-name" maxlength="80" autocomplete="name" required>
     </label>
     <div class="choice" role="group" aria-label="Attending">
-      <label><input type="radio" class="g-yes" value="yes"><span>Joyfully accepts</span></label>
-      <label><input type="radio" class="g-no" value="no"><span>Regretfully declines</span></label>
+      <label><input type="radio" class="g-yes" value="yes"><span data-t="rsvp.accept">Joyfully accepts</span></label>
+      <label><input type="radio" class="g-no" value="no"><span data-t="rsvp.decline">Regretfully declines</span></label>
     </div>
     <div class="g-extra" hidden>
       <label class="check">
         <input type="checkbox" class="g-eat" checked>
-        <span>Having food at the wedding ($<span data-price>65</span>)</span>
+        <span data-t="rsvp.food">Having food at the wedding</span>
       </label>
       <label class="field g-diet-wrap">
         <span>Dietary requirements <em>(optional)</em></span>
@@ -194,6 +145,6 @@
   </fieldset>
 </template>
 
-<script type="module" src="js/site.js?v=5"></script>
+<script type="module" src="js/site.js?v=6"></script>
 </body>
 </html>

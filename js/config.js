@@ -11,10 +11,8 @@ export const firebaseConfig = {
   appId: "1:278475932399:web:20a44c31fa3dbb4f56111a",
 };
 
-// ── Wedding details used by the scripts ─────────────────────────────
+// ── Settings that are not edited from the admin page ───────────────
+// (Text, date, price, colours and photo are edited on admin.html.)
 export const site = {
-  couple: 'Emily & Zac',
-  pricePerPerson: 65,                      // meal cost per guest, AUD
-  ceremony: '2027-10-23T15:00:00+11:00',   // 3pm Tasmanian time
   maxGuestsPerRsvp: 12,
 };

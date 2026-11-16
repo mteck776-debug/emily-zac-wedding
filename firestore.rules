@@ -20,6 +20,12 @@ service cloud.firestore {
       allow list, write: if isAdmin();
     }
 
+    // Website text, colours and photo: anyone can read, only admins can edit.
+    match /content/{doc} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
     // RSVPs: guests can add one (with a valid code, never marked paid),
     // only admins can read, tick paid, edit or delete.
     match /rsvps/{id} {

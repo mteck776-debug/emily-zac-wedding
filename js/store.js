@@ -1,6 +1,6 @@
 // Data layer. Uses Firebase when js/config.js has a config, otherwise a
 // browser-only demo store so the site can be previewed before setup.
-import { firebaseConfig } from './config.js?v=5';
+import { firebaseConfig } from './config.js?v=6';
 
 export const demo = !firebaseConfig;
 const CDN = 'https://www.gstatic.com/firebasejs/10.12.2/';
@@ -118,4 +118,28 @@ export async function savePayment(code, details, oldCode) {
   const { fs, db } = await load();
   await fs.setDoc(fs.doc(db, 'payment', code), details);
   if (oldCode && oldCode !== code) await fs.deleteDoc(fs.doc(db, 'payment', oldCode));
+}
+
+// ── website content (text, colours, photo) ──────────────────────────
+/** { site, hero } as saved from the Edit website tab; either may be null. */
+export async function getContent() {
+  if (demo) return { site: LS.get('wed_site', null), hero: LS.get('wed_hero', null) };
+  const { fs, db } = await load();
+  const [site, hero] = await Promise.all([
+    fs.getDoc(fs.doc(db, 'content', 'site')),
+    fs.getDoc(fs.doc(db, 'content', 'hero')),
+  ]);
+  return { site: site.exists() ? site.data() : null, hero: hero.exists() ? hero.data().image || null : null };
+}
+export async function saveContent(site) {
+  if (demo) return LS.set('wed_site', site);
+  const { fs, db } = await load();
+  await fs.setDoc(fs.doc(db, 'content', 'site'), site);
+}
+/** image is a data URL, or null to go back to the built-in photo. */
+export async function saveHero(image) {
+  if (demo) return LS.set('wed_hero', image);
+  const { fs, db } = await load();
+  if (image) await fs.setDoc(fs.doc(db, 'content', 'hero'), { image });
+  else await fs.deleteDoc(fs.doc(db, 'content', 'hero'));
 }
