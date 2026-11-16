@@ -20,7 +20,7 @@
 <header class="admin-head">
   <div>
     <p class="eyebrow">Wedding admin</p>
-    <h1 id="adminTitle">Guest list</h1>
+    <h1 id="adminTitle">RSVPs</h1>
   </div>
   <div class="admin-head-actions">
     <a class="textbtn" href="index.html">View guest site</a>
@@ -47,11 +47,13 @@
 
   <div id="dash" hidden>
     <div class="tabs" role="tablist">
-      <button type="button" role="tab" id="tabGuests" class="tab on" aria-selected="true" aria-controls="viewGuests">Guest list</button>
+      <button type="button" role="tab" id="tabGuests" class="tab on" aria-selected="true" aria-controls="viewGuests">RSVPs</button>
+      <button type="button" role="tab" id="tabInvites" class="tab" aria-selected="false" aria-controls="viewInvites">Invite list</button>
       <button type="button" role="tab" id="tabEdit" class="tab" aria-selected="false" aria-controls="viewEdit">Edit website</button>
     </div>
 
     <div id="viewEdit" role="tabpanel" aria-labelledby="tabEdit" hidden></div>
+    <div id="viewInvites" role="tabpanel" aria-labelledby="tabInvites" hidden></div>
 
     <div id="viewGuests" role="tabpanel" aria-labelledby="tabGuests">
     <section class="stats" id="stats" aria-label="Summary"></section>
@@ -95,6 +97,6 @@
 
 </main>
 
-<script type="module" src="js/admin.js?v=6"></script>
+<script type="module" src="js/admin.js?v=7"></script>
 </body>
 </html>

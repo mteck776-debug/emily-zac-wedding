@@ -1,5 +1,5 @@
 // "Edit website" tab: plain form fields for everything guests see.
-import { defaults, merge, get, set } from './content.js?v=6';
+import { defaults, merge, get, set } from './content.js?v=7';
 
 // What can be edited. [path, label, type, hint]
 // types: text (default), long, number, when, colour, toggle

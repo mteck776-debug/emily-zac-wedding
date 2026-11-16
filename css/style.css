@@ -264,4 +264,17 @@ textarea { resize: vertical; }
 .savebar-status { margin-right: auto; font-size: .9rem; color: var(--muted); }
 .savebar.dirty .savebar-status { color: var(--burgundy); font-weight: 500; }
 
+/* ── admin: invite list ──────────────────────────── */
+.tabs { overflow-x: auto; }
+.tab { white-space: nowrap; }
+.invite-add { margin: 1.5rem 0 1rem; }
+.invite-list { display: grid; gap: .5rem; }
+.invite { display: flex; justify-content: space-between; align-items: center; gap: .75rem 1rem; flex-wrap: wrap; background: var(--paper); border: 1px solid var(--line); border-radius: .75rem; padding: .7rem 1rem; }
+.panel .invite { background: var(--cream); margin-top: .5rem; }
+.invite-main { display: flex; align-items: center; gap: .5rem; flex-wrap: wrap; min-width: 0; overflow-wrap: anywhere; }
+.invite-src { font-size: .78rem; }
+.invite-tools { display: flex; align-items: center; gap: 1rem; }
+.invite-tools select { font: inherit; font-size: .88rem; padding: .35rem .5rem; border: 1.5px solid var(--line); border-radius: .5rem; background: var(--paper); color: inherit; }
+.tag.plain { background: var(--cream); color: var(--muted); }
+
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; } }

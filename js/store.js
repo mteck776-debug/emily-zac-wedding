@@ -1,6 +1,6 @@
 // Data layer. Uses Firebase when js/config.js has a config, otherwise a
 // browser-only demo store so the site can be previewed before setup.
-import { firebaseConfig } from './config.js?v=6';
+import { firebaseConfig } from './config.js?v=7';
 
 export const demo = !firebaseConfig;
 const CDN = 'https://www.gstatic.com/firebasejs/10.12.2/';
@@ -142,4 +142,17 @@ export async function saveHero(image) {
   const { fs, db } = await load();
   if (image) await fs.setDoc(fs.doc(db, 'content', 'hero'), { image });
   else await fs.deleteDoc(fs.doc(db, 'content', 'hero'));
+}
+
+// ── invite list (admin only) ────────────────────────────────────────
+export async function loadInvites() {
+  if (demo) return LS.get('wed_invites', []);
+  const { fs, db } = await load();
+  const snap = await fs.getDoc(fs.doc(db, 'invites', 'list'));
+  return snap.exists() ? snap.data().people || [] : [];
+}
+export async function saveInvites(people) {
+  if (demo) return LS.set('wed_invites', people);
+  const { fs, db } = await load();
+  await fs.setDoc(fs.doc(db, 'invites', 'list'), { people });
 }

@@ -1,6 +1,7 @@
-import * as store from './store.js?v=6';
-import { defaults } from './content.js?v=6';
-import { mountEditor } from './editor.js?v=6';
+import * as store from './store.js?v=7';
+import { defaults } from './content.js?v=7';
+import { mountEditor } from './editor.js?v=7';
+import { mountInvites } from './invites.js?v=7';
 
 const $ = (id) => document.getElementById(id);
 const money = (n) => '$' + n.toLocaleString('en-AU');
@@ -17,6 +18,7 @@ let rsvps = [];
 let filter = 'all';
 let watching = false;
 let price = defaults.price;
+const invites = mountInvites($('viewInvites'), store);
 const editor = mountEditor($('viewEdit'), store, {
   onSaved(content) { price = content.price; render(); },
 });
@@ -42,13 +44,14 @@ store.onAuth((state) => {
   show(state);
   if (state === 'admin' && !watching) {
     watching = true;
-    store.watchRsvps((rows) => { rsvps = rows; render(); }, (err) => {
+    store.watchRsvps((rows) => { rsvps = rows; render(); invites.setRsvps(rows); }, (err) => {
       console.error(err);
       $('listError').textContent = 'Could not load the RSVPs. Refresh the page to try again.';
       $('listError').hidden = false;
     });
     loadSettings();
     loadEditor();
+    invites.load();
   }
 }).catch((err) => {
   console.error(err);
@@ -270,17 +273,17 @@ $('copyLink').addEventListener('click', async () => {
 });
 
 // ── tabs + website editor ───────────────────────────────────────────
-function showTab(edit) {
-  $('viewEdit').hidden = !edit;
-  $('viewGuests').hidden = edit;
-  $('tabEdit').classList.toggle('on', edit);
-  $('tabGuests').classList.toggle('on', !edit);
-  $('tabEdit').setAttribute('aria-selected', edit);
-  $('tabGuests').setAttribute('aria-selected', !edit);
-  $('adminTitle').textContent = edit ? 'Edit website' : 'Guest list';
+const TABS = { Guests: 'RSVPs', Invites: 'Invite list', Edit: 'Edit website' };
+function showTab(name) {
+  for (const key of Object.keys(TABS)) {
+    const on = key === name;
+    $('view' + key).hidden = !on;
+    $('tab' + key).classList.toggle('on', on);
+    $('tab' + key).setAttribute('aria-selected', on);
+  }
+  $('adminTitle').textContent = TABS[name];
 }
-$('tabEdit').addEventListener('click', () => showTab(true));
-$('tabGuests').addEventListener('click', () => showTab(false));
+for (const key of Object.keys(TABS)) $('tab' + key).addEventListener('click', () => showTab(key));
 
 async function loadEditor() {
   try {

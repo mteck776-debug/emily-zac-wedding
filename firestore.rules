@@ -26,6 +26,11 @@ service cloud.firestore {
       allow write: if isAdmin();
     }
 
+    // Her invite list: admins only.
+    match /invites/{doc} {
+      allow read, write: if isAdmin();
+    }
+
     // RSVPs: guests can add one (with a valid code, never marked paid),
     // only admins can read, tick paid, edit or delete.
     match /rsvps/{id} {

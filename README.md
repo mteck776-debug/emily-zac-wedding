@@ -49,7 +49,9 @@ Bank details live in the database, not in this repo. Guests see them after they 
 
 No code needed: sign in at `admin.html` and open the **Edit website** tab. From there you can change the names, all the wording, the date and countdown, the meal price, the schedule, accommodation and FAQ lists (add, remove, reorder), the RSVP wording and thank-you messages, the colours and the main photo. You can also hide whole sections. Press "Save changes" and the guest site updates.
 
-If the rules in the Firebase console are older than `firestore.rules` in this repo (it now has a `content` block), paste the file in again and publish, or saving will fail.
+The **Invite list** tab holds the names she invited and shows who is attending, who declined and who has not replied, matched by name against the RSVPs.
+
+If the rules in the Firebase console are older than `firestore.rules` in this repo (it now has `content` and `invites` blocks), paste the file in again and publish, or saving will fail.
 
 For developers:
 
